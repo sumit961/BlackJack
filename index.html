@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blackjack Strategy Tool for Grand RP By Sumit Yadav</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="card.png">
+    <link rel="stylesheet" href="BlackJack.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Blackjack Strategy Tool</h1>
+            <p class="subtitle">For Grand RP and other blackjack games</p>
+        </header>
+
+        <div class="content">
+            <div class="tabs">
+                <div class="tab active" onclick="switchTab('basic')">Basic Strategy</div>
+                <div class="tab" onclick="switchTab('advanced')">Advanced Info</div>
+            </div>
+
+            <div id="basic-tab" class="tab-content active">
+                <div class="input-section">
+                    <div class="input-group">
+                        <label for="card1">Your First Card</label>
+                        <input type="text" id="card1" placeholder="e.g., 2, A, J" maxlength="2">
+                        <div class="card-examples">
+                            <span class="card-example">2-10</span>
+                            <span class="card-example">J, Q, K</span>
+                            <span class="card-example">A</span>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="card2">Your Second Card</label>
+                        <input type="text" id="card2" placeholder="e.g., 6, K" maxlength="2">
+                        <div class="card-examples">
+                            <span class="card-example">2-10</span>
+                            <span class="card-example">J, Q, K</span>
+                            <span class="card-example">A</span>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="dealerCard">Dealer's Upcard</label>
+                        <input type="text" id="dealerCard" placeholder="e.g., 7, A" maxlength="2">
+                        <div class="card-examples">
+                            <span class="card-example">2-10</span>
+                            <span class="card-example">J, Q, K</span>
+                            <span class="card-example">A</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn-primary" onclick="getAction()">Get Strategy</button>
+                    <button class="btn-secondary" onclick="resetForm()">Reset</button>
+                </div>
+
+                <div id="result">
+                    <div class="result-header">
+                        <div class="result-title">Strategy Recommendation</div>
+                    </div>
+                    <div class="result-content">
+                        <div class="result-item">
+                            <div class="result-label">Your Hand</div>
+                            <div class="result-value" id="result-hand"></div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">Hand Total</div>
+                            <div class="result-value" id="result-total"></div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">Dealer's Card</div>
+                            <div class="result-value" id="result-dealer"></div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">Hand Type</div>
+                            <div class="result-value" id="result-type"></div>
+                        </div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Recommended Action</div>
+                        <div class="action-value" id="result-action"></div>
+                    </div>
+                    <div class="action-explanation" id="action-explanation"></div>
+                </div>
+
+                <div class="additional-cards" id="additional-cards">
+                    <div class="input-group">
+                        <label for="additionalCard">Additional Card (if hitting)</label>
+                        <input type="text" id="additionalCard" placeholder="e.g., 5, A" maxlength="2">
+                    </div>
+                    <div class="button-group">
+                        <button class="btn-primary" onclick="addCard()">Add Card</button>
+                        <button class="btn-danger" onclick="stand()">Stand</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="advanced-tab" class="tab-content">
+                <div class="strategy-info">
+                    <h2>Blackjack Basic Strategy</h2>
+                    <p>Basic strategy is the mathematically optimal way to play blackjack for the best long-term results. This tool provides recommendations based on standard blackjack rules (dealer stands on soft 17, double after split allowed, etc.).</p>
+                    
+                    <h3>Key Concepts:</h3>
+                    <ul>
+                        <li><strong>Hard Total:</strong> A hand without an Ace, or with an Ace counted as 1</li>
+                        <li><strong>Soft Total:</strong> A hand with an Ace counted as 11</li>
+                        <li><strong>Pair:</strong> Two cards of the same rank</li>
+                        <li><strong>Blackjack:</strong> Ace + 10-value card (pays 3:2 typically)</li>
+                    </ul>
+                    
+                    <h3>Action Meanings:</h3>
+                    <ul>
+                        <li><strong>Hit (Add):</strong> Take another card</li>
+                        <li><strong>Stand (Cancel):</strong> Keep your current hand</li>
+                        <li><strong>Double Down:</strong> Double your bet and take exactly one more card</li>
+                        <li><strong>Split:</strong> Split a pair into two separate hands (requires additional bet)</li>
+                        <li><strong>Bust:</strong> Hand total exceeds 21 (automatic loss)</li>
+                    </ul>
+                    
+                    <h3>General Strategy Tips:</h3>
+                    <ul>
+                        <li>Always split Aces and 8s</li>
+                        <li>Never split 10-value cards (10, J, Q, K)</li>
+                        <li>Double down on 11 unless dealer shows an Ace</li>
+                        <li>Stand on hard 17 or higher</li>
+                        <li>Hit soft 17 (Ace-6) against dealer's 2 or 7+</li>
+                        <li>Stand on soft 18 (Ace-7) against dealer 2, 7, or 8</li>
+                        <li>Double soft 13-18 against appropriate dealer upcards</li>
+                    </ul>
+
+                    <h3>Rule Variations:</h3>
+                    <p>This tool assumes standard rules where the dealer stands on soft 17. If playing with different rules (like dealer hits soft 17), some strategy decisions may vary slightly.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="BlackJack.js"></script>
+</body>
+</html>
